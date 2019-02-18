@@ -1,0 +1,48 @@
+{
+    "name": "fazland/doctrine-extra",
+    "description": "A set of Doctrine extensions.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Massimiliano Braglia",
+            "email": "massimiliano.braglia@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "alcaeus/mongo-php-adapter": "^1.1",
+        "cakephp/chronos": "^1.2",
+        "doctrine/mongodb-odm": "^1.2",
+        "doctrine/orm": "^2.6",
+        "fazland/elastica-odm": "dev-master",
+        "giggsey/libphonenumber-for-php": "^8.10",
+        "moneyphp/money": "^3.2",
+        "myclabs/php-enum": "^1.6",
+        "phpunit/phpunit": "^7.0",
+        "symfony/cache": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fazland\\DoctrineExtra\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fazland\\DoctrineExtra\\Tests\\": "tests/"
+        }
+    },
+    "conflict": {
+        "doctrine/orm": ">=2.7"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "ext-mongo": "1.6.16",
+            "ext-mongodb": "1.3.0"
+        }
+    }
+}
