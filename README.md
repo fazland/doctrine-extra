@@ -1,5 +1,7 @@
 Fazland - DoctrineExtra
 =======================
+[![Build Status](https://travis-ci.com/fazland/doctrine-extra.svg?branch=master)](https://travis-ci.com/fazland/doctrine-extra) 
+
 A set of Doctrine extensions.
 
 Requirements
