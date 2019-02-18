@@ -5,12 +5,12 @@ namespace Fazland\DoctrineExtra\ODM\MongoDB;
 use Doctrine\MongoDB\Iterator;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Fazland\DoctrineExtra\IteratorTrait;
-use Fazland\DoctrineExtra\ObjectIterator;
+use Fazland\DoctrineExtra\ObjectIteratorInterface;
 
 /**
  * This class allows iterating a query iterator for a single entity query.
  */
-class DocumentIterator implements ObjectIterator
+class DocumentIterator implements ObjectIteratorInterface
 {
     use IteratorTrait;
 

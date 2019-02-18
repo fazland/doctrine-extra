@@ -4,15 +4,15 @@ namespace Fazland\DoctrineExtra\ODM\MongoDB;
 
 use Doctrine\ODM\MongoDB\DocumentRepository as BaseRepository;
 use Doctrine\ODM\MongoDB\Query\Builder;
-use Fazland\DoctrineExtra\ObjectIterator;
-use Fazland\DoctrineExtra\ObjectRepository;
+use Fazland\DoctrineExtra\ObjectIteratorInterface;
+use Fazland\DoctrineExtra\ObjectRepositoryInterface;
 
-class DocumentRepository extends BaseRepository implements ObjectRepository
+class DocumentRepository extends BaseRepository implements ObjectRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function all(): ObjectIterator
+    public function all(): ObjectIteratorInterface
     {
         return new DocumentIterator($this->createQueryBuilder());
     }

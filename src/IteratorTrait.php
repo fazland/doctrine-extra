@@ -30,7 +30,7 @@ trait IteratorTrait
     /**
      * {@inheritdoc}
      */
-    public function apply(?callable $func = null): ObjectIterator
+    public function apply(?callable $func = null): ObjectIteratorInterface
     {
         if (null === $func) {
             $func = function ($val) {

@@ -6,14 +6,14 @@ use Doctrine\Common\Persistence\ObjectRepository as BaseRepository;
 use Fazland\DoctrineExtra\Exception\NonUniqueResultExceptionInterface;
 use Fazland\DoctrineExtra\Exception\NoResultExceptionInterface;
 
-interface ObjectRepository extends BaseRepository
+interface ObjectRepositoryInterface extends BaseRepository
 {
     /**
      * Gets an iterator to traverse all the objects of the repository.
      *
-     * @return ObjectIterator
+     * @return ObjectIteratorInterface
      */
-    public function all(): ObjectIterator;
+    public function all(): ObjectIteratorInterface;
 
     /**
      * Counts entities by a set of criteria.

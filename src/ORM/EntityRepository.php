@@ -7,15 +7,15 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Fazland\DoctrineExtra\ObjectIterator;
-use Fazland\DoctrineExtra\ObjectRepository;
+use Fazland\DoctrineExtra\ObjectIteratorInterface;
+use Fazland\DoctrineExtra\ObjectRepositoryInterface;
 
-class EntityRepository extends BaseRepository implements ObjectRepository
+class EntityRepository extends BaseRepository implements ObjectRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function all(): ObjectIterator
+    public function all(): ObjectIteratorInterface
     {
         return new EntityIterator($this->createQueryBuilder('a'));
     }

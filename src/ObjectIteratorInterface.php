@@ -2,7 +2,7 @@
 
 namespace Fazland\DoctrineExtra;
 
-interface ObjectIterator extends \Iterator, \Countable
+interface ObjectIteratorInterface extends \Iterator, \Countable
 {
     /**
      * Registers a callable to apply to each element of the iterator.
