@@ -2,26 +2,11 @@
 
 namespace Fazland\DoctrineExtra\Enable;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDBODM;
-use Doctrine\ORM\Mapping as ORM;
-use Fazland\ODM\Elastica\Annotation as ElasticaODM;
-
 /**
  * Represents a common implementation of EnableInterface.
  */
 trait EnableTrait
 {
-    /**
-     * Whether the object is enabled or not.
-     *
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     * @MongoDBODM\Field(type="boolean")
-     * @ElasticaODM\Field(type="boolean")
-     */
-    private $enabled;
-
     /**
      * {@inheritdoc}
      */
