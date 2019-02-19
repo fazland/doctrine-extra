@@ -2,7 +2,7 @@
 
 namespace Fazland\DoctrineExtra\ODM\MongoDB\Timestampable;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDBODM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Fazland\DoctrineExtra\Timestampable\TimestampableTrait as BaseTrait;
 
 trait TimestampableTrait
@@ -12,14 +12,14 @@ trait TimestampableTrait
     /**
      * @var \DateTimeInterface
      *
-     * @MongoDBODM\Field(type="date")
+     * @ODM\Field(type="date")
      */
     private $createdAt;
 
     /**
      * @var \DateTimeInterface
      *
-     * @MongoDBODM\Field(type="date")
+     * @ODM\Field(type="date")
      */
     private $updatedAt;
 }

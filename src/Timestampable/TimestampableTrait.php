@@ -3,8 +3,11 @@
 namespace Fazland\DoctrineExtra\Timestampable;
 
 use Cake\Chronos\Chronos;
-use Fazland\ODM\Elastica\Annotation as ElasticaODM;
 
+/**
+ * @property \DateTimeInterface createdAt
+ * @property \DateTimeInterface updatedAt
+ */
 trait TimestampableTrait
 {
     /**
