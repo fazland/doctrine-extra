@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Fazland\DoctrineExtra\Entity;
+namespace Fazland\DoctrineExtra\ORM\Entity;
 
 use Cake\Chronos\Chronos;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDBODM;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  * Start and end times are optional.
  *
  * @ORM\Embeddable()
- * @MongoDBODM\EmbeddedDocument()
  */
 class TimeSpan
 {

@@ -3,32 +3,12 @@
 namespace Fazland\DoctrineExtra\Timestampable;
 
 use Cake\Chronos\Chronos;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDBODM;
-use Doctrine\ORM\Mapping as ORM;
 use Fazland\ODM\Elastica\Annotation as ElasticaODM;
 
 trait TimestampableTrait
 {
     /**
-     * @var \DateTimeInterface
-     *
-     * @ORM\Column(type="datetimetz_immutable")
-     * @MongoDBODM\Field(type="date")
-     * @ElasticaODM\Field(type="datetime_immutable")
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTimeInterface
-     *
-     * @ORM\Column(type="datetimetz_immutable")
-     * @MongoDBODM\Field(type="date")
-     * @ElasticaODM\Field(type="datetime_immutable")
-     */
-    private $updatedAt;
-
-    /**
-     * @return \DateTimeInterface
+     * {@inheritdoc}
      */
     public function getCreatedAt(): \DateTimeInterface
     {
@@ -36,7 +16,7 @@ trait TimestampableTrait
     }
 
     /**
-     * @return \DateTimeInterface
+     * {@inheritdoc}
      */
     public function getUpdatedAt(): \DateTimeInterface
     {
@@ -44,7 +24,7 @@ trait TimestampableTrait
     }
 
     /**
-     * @return TimestampableInterface
+     * {@inheritdoc}
      */
     public function updateTimestamp(): TimestampableInterface
     {
