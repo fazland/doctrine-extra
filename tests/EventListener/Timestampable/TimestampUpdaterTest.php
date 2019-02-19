@@ -8,13 +8,13 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\ORM\Configuration;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\MongoDB as MongoDBODM;
+use Doctrine\ORM;
 use Fazland\DoctrineExtra\EventListener\Timestampable\TimestampUpdater;
 use Fazland\DoctrineExtra\Tests\Fixtures\Entity\FooNonTimestampable;
 use Fazland\DoctrineExtra\Tests\Fixtures\Entity\FooTimestampable;
 use Fazland\DoctrineExtra\Timestampable\TimestampableInterface;
+use Fazland\ODM\Elastica as ElasticaODM;
 use PHPUnit\Framework\TestCase;
 
 class TimestampUpdaterTest extends TestCase
@@ -62,11 +62,16 @@ class TimestampUpdaterTest extends TestCase
     public function testListenerShouldWork(): void
     {
         $eventManager = new EventManager();
-        $eventManager->addEventSubscriber(new TimestampUpdater());
+        $events = [
+            ORM\Events::preUpdate,
+            MongoDBODM\Events::preUpdate,
+            ElasticaODM\Events::preUpdate,
+        ];
+        $eventManager->addEventListener($events, new TimestampUpdater());
 
         AnnotationRegistry::registerLoader('class_exists');
-        $configuration = new Configuration();
-        $configuration->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader()));
+        $configuration = new ORM\Configuration();
+        $configuration->setMetadataDriverImpl(new ORM\Mapping\Driver\AnnotationDriver(new AnnotationReader()));
         $configuration->setProxyDir(\sys_get_temp_dir());
         $configuration->setProxyNamespace('__TMP__\\ProxyNamespace\\');
 
@@ -87,7 +92,7 @@ CREATE TABLE foo_timestampable (
 SQL
         );
 
-        $entityManager = EntityManager::create($connection, $configuration, $eventManager);
+        $entityManager = ORM\EntityManager::create($connection, $configuration, $eventManager);
 
         Chronos::setTestNow('2018-01-10T11:47:00');
         $foo = new FooTimestampable();
