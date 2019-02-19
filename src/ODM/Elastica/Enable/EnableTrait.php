@@ -3,7 +3,7 @@
 namespace Fazland\DoctrineExtra\ODM\Elastica\Enable;
 
 use Fazland\DoctrineExtra\Enable\EnableTrait as BaseTrait;
-use Fazland\ODM\Elastica\Annotation as ElasticaODM;
+use Fazland\ODM\Elastica\Annotation as ODM;
 
 trait EnableTrait
 {
@@ -14,7 +14,7 @@ trait EnableTrait
      *
      * @var bool
      *
-     * @ElasticaODM\Field(type="boolean")
+     * @ODM\Field(type="boolean")
      */
     private $enabled;
 }

@@ -3,7 +3,7 @@
 namespace Fazland\DoctrineExtra\ODM\Elastica\Timestampable;
 
 use Fazland\DoctrineExtra\Timestampable\TimestampableTrait as BaseTrait;
-use Fazland\ODM\Elastica\Annotation as ElasticaODM;
+use Fazland\ODM\Elastica\Annotation as ODM;
 
 trait TimestampableTrait
 {
@@ -12,14 +12,14 @@ trait TimestampableTrait
     /**
      * @var \DateTimeInterface
      *
-     * @ElasticaODM\Field(type="datetime_immutable")
+     * @ODM\Field(type="datetime_immutable")
      */
     private $createdAt;
 
     /**
      * @var \DateTimeInterface
      *
-     * @ElasticaODM\Field(type="datetime_immutable")
+     * @ODM\Field(type="datetime_immutable")
      */
     private $updatedAt;
 }

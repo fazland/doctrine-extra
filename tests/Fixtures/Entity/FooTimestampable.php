@@ -4,8 +4,8 @@ namespace Fazland\DoctrineExtra\Tests\Fixtures\Entity;
 
 use Cake\Chronos\Chronos;
 use Doctrine\ORM\Mapping as ORM;
+use Fazland\DoctrineExtra\ORM\Timestampable\TimestampableTrait;
 use Fazland\DoctrineExtra\Timestampable\TimestampableInterface;
-use Fazland\DoctrineExtra\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity()
