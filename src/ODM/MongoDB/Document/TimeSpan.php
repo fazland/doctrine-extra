@@ -8,7 +8,7 @@ use Fazland\DoctrineExtra\TimeSpan\TimeSpanTrait;
 /**
  * @ODM\EmbeddedDocument()
  */
-class Timespan
+class TimeSpan
 {
     use TimeSpanTrait;
 
