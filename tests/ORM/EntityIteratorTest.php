@@ -3,11 +3,13 @@
 namespace Fazland\DoctrineExtra\Tests\ORM;
 
 use Doctrine\DBAL\Cache\ArrayStatement;
+use Doctrine\DBAL\Driver\Statement;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Fazland\DoctrineExtra\ORM\EntityIterator;
 use Fazland\DoctrineExtra\Tests\Fixtures\Entity\FooBar;
 use Fazland\DoctrineExtra\Tests\Fixtures\Entity\ForeignIdentifierEntity;
+use Fazland\DoctrineExtra\Tests\Fixtures\Entity\TestEntity;
 use Fazland\DoctrineExtra\Tests\Mock\ORM\EntityManagerTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -186,5 +188,49 @@ class EntityIteratorTest extends TestCase
 
         self::assertEquals([42, 45, 48], \iterator_to_array($this->iterator));
         self::assertEquals(3, $calledCount);
+    }
+
+    public function testShouldUseResultCache(): void
+    {
+        $metadata = new ClassMetadata(TestEntity::class);
+        $this->getEntityManager()->getMetadataFactory()->setMetadataFor(TestEntity::class, $metadata);
+
+        $metadata->identifier = ['id'];
+        $metadata->mapField([
+            'fieldName' => 'id',
+            'type' => 'integer',
+            'scale' => null,
+            'length' => null,
+            'unique' => true,
+            'nullable' => false,
+            'precision' => null,
+        ]);
+        $metadata->reflFields['id'] = new \ReflectionProperty(TestEntity::class, 'id');
+
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $queryBuilder->select('a')
+                     ->from(TestEntity::class, 'a')
+        ;
+
+        $this->innerConnection
+            ->query('SELECT t0_.id AS id_0 FROM TestEntity t0_')
+            ->willReturn($stmt = $this->prophesize(Statement::class))
+            ->shouldBeCalledOnce()
+        ;
+
+        $iterator = new EntityIterator($queryBuilder);
+        $iterator->useResultCache(true, 'foobar_cache', 86400);
+
+        \iterator_to_array($iterator);
+
+        $iterator = new EntityIterator($queryBuilder);
+        $iterator->useResultCache(true, 'foobar_cache', 86400);
+
+        \iterator_to_array($iterator);
+
+        $iterator = new EntityIterator($queryBuilder);
+        $iterator->useResultCache(true, 'foobar_cache', 86400);
+
+        \iterator_to_array($iterator);
     }
 }
