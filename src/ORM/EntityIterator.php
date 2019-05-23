@@ -11,12 +11,24 @@ use Fazland\DoctrineExtra\ObjectIteratorInterface;
  */
 class EntityIterator implements ObjectIteratorInterface
 {
-    use IteratorTrait;
+    use IteratorTrait {
+        current as private iteratorCurrent;
+    }
 
     /**
      * @var IterableResult
      */
     private $internalIterator;
+
+    /**
+     * @var string
+     */
+    private $resultCache;
+
+    /**
+     * @var int
+     */
+    private $cacheLifetime;
 
     public function __construct(QueryBuilder $queryBuilder)
     {
@@ -25,10 +37,7 @@ class EntityIterator implements ObjectIteratorInterface
         }
 
         $this->queryBuilder = clone $queryBuilder;
-        $this->internalIterator = $this->queryBuilder->getQuery()->iterate();
-
         $this->apply();
-        $this->_currentElement = $this->internalIterator->current()[0];
     }
 
     /**
@@ -37,7 +46,7 @@ class EntityIterator implements ObjectIteratorInterface
     public function next()
     {
         $this->_current = null;
-        $this->_currentElement = $this->internalIterator->next()[0];
+        $this->_currentElement = $this->getIterator()->next()[0];
 
         return $this->current();
     }
@@ -47,7 +56,7 @@ class EntityIterator implements ObjectIteratorInterface
      */
     public function key()
     {
-        return $this->internalIterator->key();
+        return $this->getIterator()->key();
     }
 
     /**
@@ -55,7 +64,17 @@ class EntityIterator implements ObjectIteratorInterface
      */
     public function valid(): bool
     {
-        return $this->internalIterator->valid();
+        return $this->getIterator()->valid();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function current()
+    {
+        $this->getIterator();
+
+        return $this->iteratorCurrent();
     }
 
     /**
@@ -64,7 +83,52 @@ class EntityIterator implements ObjectIteratorInterface
     public function rewind(): void
     {
         $this->_current = null;
-        $this->internalIterator->rewind();
-        $this->_currentElement = $this->internalIterator->current()[0];
+        $this->getIterator()->rewind();
+        $this->_currentElement = $this->getIterator()->current()[0];
+    }
+
+    /**
+     * Request to use query result cache.
+     *
+     * @param bool     $enable
+     * @param string   $cacheId
+     * @param int|null $lifetime
+     *
+     * @return EntityIterator
+     */
+    public function useResultCache(bool $enable, string $cacheId, ?int $lifetime): self
+    {
+        if (! $enable) {
+            $this->resultCache = null;
+
+            return $this;
+        }
+
+        $this->resultCache = $cacheId;
+        $this->cacheLifetime = $lifetime;
+
+        return $this;
+    }
+
+    /**
+     * Gets the iterator.
+     *
+     * @return IterableResult
+     */
+    private function getIterator(): IterableResult
+    {
+        if (null !== $this->internalIterator) {
+            return $this->internalIterator;
+        }
+
+        $query = $this->queryBuilder->getQuery();
+        if (null !== $this->resultCache) {
+            $query->useResultCache(true, $this->cacheLifetime, $this->resultCache);
+        }
+
+        $this->internalIterator = $query->iterate();
+        $this->_currentElement = $this->getIterator()->current()[0];
+
+        return $this->internalIterator;
     }
 }
