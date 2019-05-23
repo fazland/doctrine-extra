@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Fazland\DoctrineExtra\ORM\EntityIterator;
 use Fazland\DoctrineExtra\Tests\Fixtures\Entity\FooBar;
+use Fazland\DoctrineExtra\Tests\Fixtures\Entity\ForeignIdentifierEntity;
 use Fazland\DoctrineExtra\Tests\Mock\ORM\EntityManagerTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -121,7 +122,45 @@ class EntityIteratorTest extends TestCase
             ]))
         ;
 
-        self::assertCount(42, new EntityIterator($this->queryBuilder));
+        self::assertCount(42, new EntityIterator($queryBuilder));
+    }
+
+    public function testCountShouldWorkWithEntityWithForeignIdentifier(): void
+    {
+        $metadata = new ClassMetadata(ForeignIdentifierEntity::class);
+        $this->getEntityManager()->getMetadataFactory()->setMetadataFor(ForeignIdentifierEntity::class, $metadata);
+
+        $metadata->mapOneToOne([
+            'fieldName' => 'id',
+            'targetEntity' => FooBar::class,
+            'joinColumns' => [ ['name' => 'id', 'unique' => true, 'nullable' => 'false'] ],
+            'id' => true,
+        ]);
+        $metadata->reflFields['id'] = new \ReflectionProperty(ForeignIdentifierEntity::class, 'id');
+
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $queryBuilder->select('a')
+                     ->from(ForeignIdentifierEntity::class, 'a')
+                     ->setFirstResult(1)
+        ;
+
+        $this->innerConnection
+            ->query('SELECT f0_.id AS id_0 FROM ForeignIdentifierEntity f0_ OFFSET 1')
+            ->willReturn(new ArrayStatement([
+                ['id_0' => '42'],
+                ['id_0' => '45'],
+                ['id_0' => '48'],
+            ]));
+
+        $this->innerConnection
+            ->query('SELECT COUNT(f0_.id) AS sclr_0 FROM ForeignIdentifierEntity f0_')
+            ->willReturn(new ArrayStatement([
+                ['sclr_0' => '42'],
+            ]))
+            ->shouldBeCalled()
+        ;
+
+        self::assertCount(42, new EntityIterator($queryBuilder));
     }
 
     public function testShouldIterateAgainstAQueryResult(): void

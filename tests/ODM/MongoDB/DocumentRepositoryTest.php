@@ -26,6 +26,10 @@ class DocumentRepositoryTest extends TestCase
      */
     protected function setUp(): void
     {
+        if (! \class_exists('MongoDB\BSON\Serializable')) {
+            self::markTestSkipped('Mongo extension not installed');
+        }
+
         $documentManager = $this->getDocumentManager();
         $class = new ClassMetadata(FooBar::class);
         $documentManager->getMetadataFactory()->setMetadataFor(FooBar::class, $class);
