@@ -5,7 +5,7 @@ namespace Fazland\DoctrineExtra\Tests\ODM\MongoDB;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Fazland\DoctrineExtra\ODM\MongoDB\DocumentIterator;
-use Fazland\DoctrineExtra\Tests\Fixtures\Document\FooBar;
+use Fazland\DoctrineExtra\Tests\Fixtures\Document\MongoDB\FooBar;
 use Fazland\DoctrineExtra\Tests\Mock\ODM\MongoDB\DocumentManagerTrait;
 use MongoDB\Model\BSONDocument;
 use PHPUnit\Framework\TestCase;
