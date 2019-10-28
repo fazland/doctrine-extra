@@ -135,7 +135,7 @@ class EntityIteratorTest extends TestCase
         $metadata->mapOneToOne([
             'fieldName' => 'id',
             'targetEntity' => FooBar::class,
-            'joinColumns' => [ ['name' => 'id', 'unique' => true, 'nullable' => 'false'] ],
+            'joinColumns' => [['name' => 'id', 'unique' => true, 'nullable' => 'false']],
             'id' => true,
         ]);
         $metadata->reflFields['id'] = new \ReflectionProperty(ForeignIdentifierEntity::class, 'id');

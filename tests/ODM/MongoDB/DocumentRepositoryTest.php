@@ -5,7 +5,7 @@ namespace Fazland\DoctrineExtra\Tests\ODM\MongoDB;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Fazland\DoctrineExtra\ODM\MongoDB\DocumentIterator;
 use Fazland\DoctrineExtra\ODM\MongoDB\DocumentRepository;
-use Fazland\DoctrineExtra\Tests\Fixtures\Document\FooBar;
+use Fazland\DoctrineExtra\Tests\Fixtures\Document\MongoDB\FooBar;
 use Fazland\DoctrineExtra\Tests\Mock\ODM\MongoDB\DocumentManagerTrait;
 use Fazland\DoctrineExtra\Tests\Mock\ODM\MongoDB\Repository;
 use MongoDB\Model\BSONDocument;
@@ -40,7 +40,7 @@ class DocumentRepositoryTest extends TestCase
         $this->repository = new Repository($documentManager, $documentManager->getUnitOfWork(), $class);
     }
 
-    public function testAllShouldReturnAnEntityIterator(): void
+    public function testAllShouldReturnADocumentIterator(): void
     {
         $this->collection->find([], Argument::any())->willReturn(new \ArrayIterator([]));
         self::assertInstanceOf(DocumentIterator::class, $this->repository->all());
