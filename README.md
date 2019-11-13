@@ -18,7 +18,7 @@ $ composer require fazland/doctrine-extra
 
 Using DoctrineExtra
 -------------------
-Work in progress.
+See [using-doctrine-extra.md](./docs/using-doctrine-extra.md).
 
 Test
 ----
