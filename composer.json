@@ -29,7 +29,7 @@
         "moneyphp/money": "^3.2",
         "myclabs/php-enum": "^1.6",
         "phpunit/phpunit": "^7.0",
-        "symfony/cache": "^4.2"
+        "symfony/cache": "^4.2|^5.0"
     },
     "autoload": {
         "psr-4": {
