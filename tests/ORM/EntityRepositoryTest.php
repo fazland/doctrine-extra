@@ -5,6 +5,8 @@ namespace Fazland\DoctrineExtra\Tests\ORM;
 use Doctrine\DBAL\Cache\ArrayStatement;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Fazland\DoctrineExtra\ORM\EntityIterator;
 use Fazland\DoctrineExtra\ORM\EntityRepository;
 use Fazland\DoctrineExtra\Tests\Fixtures\Entity\FooBar;
@@ -98,11 +100,10 @@ class EntityRepositoryTest extends TestCase
         self::assertEquals(1, $obj1->id);
     }
 
-    /**
-     * @expectedException \Doctrine\ORM\NonUniqueResultException
-     */
     public function testFindOneByCachedShouldThrowIdNonUniqueResultHasBeenReturned(): void
     {
+        $this->expectException(NonUniqueResultException::class);
+
         $this->innerConnection
             ->query('SELECT t0_.id AS id_0 FROM TestEntity t0_ LIMIT 1')
             ->willReturn($statement = $this->prophesize(Statement::class))
@@ -211,11 +212,10 @@ class EntityRepositoryTest extends TestCase
         self::assertEquals(1, $obj1->id);
     }
 
-    /**
-     * @expectedException \Doctrine\ORM\NoResultException
-     */
     public function testGetShouldThrowIfNoResultIsFound(): void
     {
+        $this->expectException(NoResultException::class);
+
         $this->innerConnection
             ->prepare('SELECT t0.id AS id_1 FROM TestEntity t0 WHERE t0.id = ?')
             ->willReturn($statement = $this->prophesize(Statement::class))
@@ -264,11 +264,10 @@ class EntityRepositoryTest extends TestCase
         self::assertEquals(12, $obj1->id);
     }
 
-    /**
-     * @expectedException \Doctrine\ORM\NoResultException
-     */
     public function testGetOneByShouldThrowIfNoResultIsFound(): void
     {
+        $this->expectException(NoResultException::class);
+
         $this->innerConnection
             ->prepare('SELECT t0.id AS id_1 FROM TestEntity t0 WHERE t0.id = ? LIMIT 1')
             ->willReturn($statement = $this->prophesize(Statement::class))

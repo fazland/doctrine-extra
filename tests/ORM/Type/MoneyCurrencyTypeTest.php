@@ -3,6 +3,7 @@
 namespace Fazland\DoctrineExtra\Tests\ORM\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Fazland\DoctrineExtra\ORM\Type\MoneyCurrencyType;
 use Money\Currency;
@@ -56,11 +57,10 @@ class MoneyCurrencyTypeTest extends TestCase
         self::assertNull($type->convertToDatabaseValue(null, $this->prophesize(AbstractPlatform::class)->reveal()));
     }
 
-    /**
-     * @expectedException \Doctrine\DBAL\Types\ConversionException
-     */
     public function testConvertToDatabaseValueShouldThrowIfNotACurrency(): void
     {
+        $this->expectException(ConversionException::class);
+
         $type = Type::getType(MoneyCurrencyType::NAME);
         $type->convertToDatabaseValue(new \stdClass(), $this->prophesize(AbstractPlatform::class)->reveal());
     }

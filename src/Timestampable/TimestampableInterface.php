@@ -6,15 +6,11 @@ interface TimestampableInterface
 {
     /**
      * Returns the creation \DateTime of current object.
-     *
-     * @return \DateTimeInterface
      */
     public function getCreatedAt(): \DateTimeInterface;
 
     /**
      * Returns the last update \DateTime of current object.
-     *
-     * @return \DateTimeInterface
      */
     public function getUpdatedAt(): \DateTimeInterface;
 

@@ -95,8 +95,6 @@ class DocumentIterator implements ObjectIteratorInterface
 
     /**
      * Gets the iterator.
-     *
-     * @return \Iterator
      */
     private function getIterator(): \Iterator
     {

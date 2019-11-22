@@ -62,8 +62,6 @@ trait IteratorTrait
 
     /**
      * Checks if current position is valid.
-     *
-     * @return bool
      */
     abstract public function valid(): bool;
 }

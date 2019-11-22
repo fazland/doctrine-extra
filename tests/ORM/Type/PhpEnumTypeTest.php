@@ -3,6 +3,7 @@
 namespace Fazland\DoctrineExtra\Tests\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Fazland\DoctrineExtra\ORM\Type\PhpEnumType;
 use Fazland\DoctrineExtra\Tests\Fixtures\Enum\ActionEnum;
@@ -68,11 +69,10 @@ class PhpEnumTypeTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testRegisterShouldThrowIfNotAnEnumClass(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         PhpEnumType::registerEnumType(\stdClass::class);
     }
 
@@ -133,11 +133,10 @@ class PhpEnumTypeTest extends TestCase
         self::assertEquals($enumClass::FOO(), $value[0]);
     }
 
-    /**
-     * @expectedException \Doctrine\DBAL\Types\ConversionException
-     */
     public function testConvertToPHPShouldThrowIfNotAValidEnumValue(): void
     {
+        $this->expectException(ConversionException::class);
+
         $platform = $this->prophesize(AbstractPlatform::class);
 
         $enumClass = FoobarEnum::class;
@@ -147,11 +146,10 @@ class PhpEnumTypeTest extends TestCase
         $type->convertToPHPValue('boss', $platform->reveal());
     }
 
-    /**
-     * @expectedException \Doctrine\DBAL\Types\ConversionException
-     */
     public function testConvertToPHPShouldThrowIfNotAValidMultipleEnumValue(): void
     {
+        $this->expectException(ConversionException::class);
+
         $platform = $this->prophesize(AbstractPlatform::class);
 
         $enumClass = FoobarEnum::class;
@@ -192,11 +190,10 @@ class PhpEnumTypeTest extends TestCase
         self::assertEquals('["foo"]', $type->convertToDatabaseValue([FoobarEnum::FOO()], $platform->reveal()));
     }
 
-    /**
-     * @expectedException \Doctrine\DBAL\Types\ConversionException
-     */
     public function testConvertToDatabaseShouldThrowIfNotOfCorrectClass(): void
     {
+        $this->expectException(ConversionException::class);
+
         $platform = $this->prophesize(AbstractPlatform::class);
 
         $enumClass = FoobarEnum::class;
@@ -206,11 +203,10 @@ class PhpEnumTypeTest extends TestCase
         $type->convertToDatabaseValue(ActionEnum::GET(), $platform->reveal());
     }
 
-    /**
-     * @expectedException \Doctrine\DBAL\Types\ConversionException
-     */
     public function testConvertToDatabaseShouldThrowIfNotOfCorrectMultipleClass(): void
     {
+        $this->expectException(ConversionException::class);
+
         $platform = $this->prophesize(AbstractPlatform::class);
 
         $enumClass = FoobarEnum::class;

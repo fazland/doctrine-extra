@@ -120,11 +120,6 @@ class EntityRepository extends BaseRepository implements ObjectRepositoryInterfa
 
     /**
      * Builds a query for find method.
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     *
-     * @return Query
      */
     private function buildQueryForFind(array $criteria, ?array $orderBy = null): Query
     {
@@ -133,11 +128,6 @@ class EntityRepository extends BaseRepository implements ObjectRepositoryInterfa
 
     /**
      * Builds a query builder for find operations.
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     *
-     * @return QueryBuilder
      */
     private function buildQueryBuilderForCriteria(array $criteria, ?array $orderBy = null): QueryBuilder
     {

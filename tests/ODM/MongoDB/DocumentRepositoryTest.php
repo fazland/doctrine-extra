@@ -3,6 +3,8 @@
 namespace Fazland\DoctrineExtra\Tests\ODM\MongoDB;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
+use Doctrine\ORM\NonUniqueResultException;
+use Fazland\DoctrineExtra\Exception\NonUniqueResultExceptionInterface;
 use Fazland\DoctrineExtra\ODM\MongoDB\DocumentIterator;
 use Fazland\DoctrineExtra\ODM\MongoDB\DocumentRepository;
 use Fazland\DoctrineExtra\Tests\Fixtures\Document\MongoDB\FooBar;
@@ -72,11 +74,10 @@ class DocumentRepositoryTest extends TestCase
         self::markTestSkipped('Mongo ODM does not support result cache');
     }
 
-    /**
-     * @expectedException \Doctrine\ORM\NonUniqueResultException
-     */
     public function testFindOneByCachedShouldThrowIdNonUniqueResultHasBeenReturned(): void
     {
+        $this->expectException(NonUniqueResultException::class);
+
         self::markTestSkipped('Mongo ODM does not support result cache');
     }
 
@@ -109,11 +110,10 @@ class DocumentRepositoryTest extends TestCase
         self::assertEquals('5a3d346ab7f26e18ba119308', $obj1->id);
     }
 
-    /**
-     * @expectedException \Fazland\DoctrineExtra\Exception\NoResultExceptionInterface
-     */
     public function testGetShouldThrowIfNoResultIsFound(): void
     {
+        $this->expectException(NonUniqueResultExceptionInterface::class);
+
         $this->collection
             ->find(new BSONDocument(['_id' => '5a3d346ab7f26e18ba119308']), Argument::any())
             ->shouldBeCalledTimes(1)
@@ -142,11 +142,10 @@ class DocumentRepositoryTest extends TestCase
         self::assertEquals('5a3d346ab7f26e18ba119308', $obj1->id);
     }
 
-    /**
-     * @expectedException \Fazland\DoctrineExtra\Exception\NoResultExceptionInterface
-     */
     public function testGetOneByShouldThrowIfNoResultIsFound(): void
     {
+        $this->expectException(NonUniqueResultExceptionInterface::class);
+
         $this->collection
             ->find(new BSONDocument(['_id' => '5a3d346ab7f26e18ba119308']), Argument::any())
             ->shouldBeCalledTimes(1)

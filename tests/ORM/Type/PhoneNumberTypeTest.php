@@ -3,6 +3,7 @@
 namespace Fazland\DoctrineExtra\Tests\ORM\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Fazland\DoctrineExtra\ORM\Type\PhoneNumberType;
 use libphonenumber\PhoneNumber;
@@ -58,11 +59,10 @@ class PhoneNumberTypeTest extends TestCase
         self::assertNull($type->convertToDatabaseValue(null, $platform->reveal()));
     }
 
-    /**
-     * @expectedException \Doctrine\DBAL\Types\ConversionException
-     */
     public function testConvertToDatabaseValueShouldThrowExceptionGivenInvalidValue(): void
     {
+        $this->expectException(ConversionException::class);
+
         $platform = $this->prophesize(AbstractPlatform::class);
         $type = Type::getType(PhoneNumberType::NAME);
 
@@ -102,11 +102,10 @@ class PhoneNumberTypeTest extends TestCase
         self::assertEquals($phoneNumber, $type->convertToPHPValue($phoneNumber, $platform->reveal()));
     }
 
-    /**
-     * @expectedException \Doctrine\DBAL\Types\ConversionException
-     */
     public function testConvertToPHPValueShouldThrowExceptionGivenWrongPhoneNumber(): void
     {
+        $this->expectException(ConversionException::class);
+
         $platform = $this->prophesize(AbstractPlatform::class);
         $type = Type::getType(PhoneNumberType::NAME);
 

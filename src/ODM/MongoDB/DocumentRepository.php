@@ -111,11 +111,6 @@ class DocumentRepository extends BaseRepository implements ObjectRepositoryInter
 
     /**
      * Builds a query builder for find operations.
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     *
-     * @return Builder
      */
     private function buildQueryBuilderForCriteria(array $criteria, ?array $orderBy = null): Builder
     {

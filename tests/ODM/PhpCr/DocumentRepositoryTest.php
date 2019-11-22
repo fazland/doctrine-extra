@@ -4,7 +4,9 @@ namespace Fazland\DoctrineExtra\Tests\ODM\PhpCr;
 
 use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
+use Doctrine\ORM\NoResultException;
 use Fazland\DoctrineExtra\DBAL\DummyStatement;
+use Fazland\DoctrineExtra\Exception\NoResultExceptionInterface;
 use Fazland\DoctrineExtra\ODM\PhpCr\DocumentIterator;
 use Fazland\DoctrineExtra\ODM\PhpCr\DocumentRepository;
 use Fazland\DoctrineExtra\Tests\Fixtures\Document\PhpCr\FooBar;
@@ -95,11 +97,10 @@ XML;
         self::markTestSkipped('PhpCr ODM does not support result cache');
     }
 
-    /**
-     * @expectedException \Doctrine\ORM\NonUniqueResultException
-     */
     public function testFindOneByCachedShouldThrowIdNonUniqueResultHasBeenReturned(): void
     {
+        $this->expectException(NoResultException::class);
+
         self::markTestSkipped('PhpCr ODM does not support result cache');
     }
 
@@ -140,11 +141,10 @@ XML;
         self::assertEquals('/5a3d346ab7f26e18ba119308', $obj1->id);
     }
 
-    /**
-     * @expectedException \Fazland\DoctrineExtra\Exception\NoResultExceptionInterface
-     */
     public function testGetShouldThrowIfNoResultIsFound(): void
     {
+        $this->expectException(NoResultExceptionInterface::class);
+
         $this->connection->prepare("\n              SELECT * FROM phpcr_nodes\n              WHERE path = ?\n                AND workspace_name = ?\n              ORDER BY depth, sort_order ASC")
             ->willReturn(new DummyStatement([]));
 
@@ -183,11 +183,10 @@ XML;
         self::assertEquals('/5a3d346ab7f26e18ba119308', $obj1->id);
     }
 
-    /**
-     * @expectedException \Fazland\DoctrineExtra\Exception\NoResultExceptionInterface
-     */
     public function testGetOneByShouldThrowIfNoResultIsFound(): void
     {
+        $this->expectException(NoResultExceptionInterface::class);
+
         $this->connection->prepare('SELECT n0.path AS n0_path, n0.identifier AS n0_identifier, n0.props AS n0_props FROM phpcr_nodes n0 WHERE n0.workspace_name = ? AND n0.type IN (\'nt:unstructured\', \'rep:root\') AND (EXTRACTVALUE(n0.props, \'count(//sv:property[@sv:name="id"]/sv:value[text()="/5a3d346ab7f26e18ba119308"]) > 0\') AND (EXTRACTVALUE(n0.props, \'count(//sv:property[@sv:name="phpcr:class"]/sv:value[text()="Fazland\\\\DoctrineExtra\\\\Tests\\\\Fixtures\\\\Document\\\\PhpCr\\\\FooBar"]) > 0\') OR EXTRACTVALUE(n0.props, \'count(//sv:property[@sv:name="phpcr:classparents"]/sv:value[text()="Fazland\\\\DoctrineExtra\\\\Tests\\\\Fixtures\\\\Document\\\\PhpCr\\\\FooBar"]) > 0\'))) LIMIT 1')
             ->willReturn(new DummyStatement([]));
 

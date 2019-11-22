@@ -63,12 +63,11 @@ class EntityIteratorTest extends TestCase
         $this->iterator = new EntityIterator($this->queryBuilder);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage QueryBuilder must have exactly one root aliases for the iterator to work.
-     */
     public function testShouldThrowIfQueryBuilderHasMoreThanOneRootAlias(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('QueryBuilder must have exactly one root aliases for the iterator to work.');
+
         $this->queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $this->queryBuilder->select('a')
             ->addSelect('b')

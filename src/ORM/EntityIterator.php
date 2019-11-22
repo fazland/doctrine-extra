@@ -90,10 +90,6 @@ class EntityIterator implements ObjectIteratorInterface
     /**
      * Request to use query result cache.
      *
-     * @param bool     $enable
-     * @param string   $cacheId
-     * @param int|null $lifetime
-     *
      * @return EntityIterator
      */
     public function useResultCache(bool $enable, string $cacheId, ?int $lifetime): self
@@ -112,8 +108,6 @@ class EntityIterator implements ObjectIteratorInterface
 
     /**
      * Gets the iterator.
-     *
-     * @return IterableResult
      */
     private function getIterator(): IterableResult
     {

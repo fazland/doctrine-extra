@@ -32,9 +32,6 @@ trait TimeSpanTrait
 
     /**
      * Updates the time span.
-     *
-     * @param \DateTimeImmutable|null $start
-     * @param \DateTimeImmutable|null $end
      */
     public function update(?\DateTimeImmutable $start, ?\DateTimeImmutable $end): void
     {
@@ -49,10 +46,6 @@ trait TimeSpanTrait
     /**
      * Checks whether the given date time is between the start and the end of
      * this time span. Null limits are treated as Infinite.
-     *
-     * @param \DateTimeInterface $reference
-     *
-     * @return bool
      */
     public function contains(\DateTimeInterface $reference): bool
     {

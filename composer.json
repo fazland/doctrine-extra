@@ -24,11 +24,12 @@
         "doctrine/phpcr-odm": "^1.0",
         "doctrine/orm": "^2.6",
         "fazland/elastica-odm": "^1.0@dev",
+        "friendsofphp/php-cs-fixer": "^2.13",
         "giggsey/libphonenumber-for-php": "^8.10",
         "jackalope/jackalope-doctrine-dbal": "*",
         "moneyphp/money": "^3.2",
         "myclabs/php-enum": "^1.6",
-        "phpunit/phpunit": "^7.0",
+        "phpunit/phpunit": "^8.0",
         "symfony/cache": "^4.2|^5.0"
     },
     "autoload": {

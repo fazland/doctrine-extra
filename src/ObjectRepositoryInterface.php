@@ -10,26 +10,16 @@ interface ObjectRepositoryInterface extends BaseRepository
 {
     /**
      * Gets an iterator to traverse all the objects of the repository.
-     *
-     * @return ObjectIteratorInterface
      */
     public function all(): ObjectIteratorInterface;
 
     /**
      * Counts entities by a set of criteria.
-     *
-     * @param array $criteria
-     *
-     * @return int
      */
     public function count(array $criteria = []): int;
 
     /**
      * Finds a single object by a set of criteria and cache the result for next calls.
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     * @param int        $ttl
      *
      * @return object|null the entity instance or NULL if the entity can not be found
      *
@@ -39,12 +29,6 @@ interface ObjectRepositoryInterface extends BaseRepository
 
     /**
      * Finds objects by a set of criteria and cache the result for next calls.
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     * @param int|null   $limit
-     * @param int|null   $offset
-     * @param int        $ttl
      *
      * @return array The objects
      */
@@ -73,9 +57,6 @@ interface ObjectRepositoryInterface extends BaseRepository
     /**
      * Finds a single object by a set of criteria and cache the result for next calls.
      *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     *
      * @return object
      *
      * @throws NoResultExceptionInterface
@@ -86,10 +67,6 @@ interface ObjectRepositoryInterface extends BaseRepository
     /**
      * Finds a single object by a set of criteria and cache the result for next calls.
      * Throws an exception if the object cannot be found.
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     * @param int        $ttl
      *
      * @return object
      *
