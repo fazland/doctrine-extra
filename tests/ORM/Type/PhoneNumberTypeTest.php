@@ -27,18 +27,25 @@ class PhoneNumberTypeTest extends TestCase
      */
     public function tearDown(): void
     {
-        if (Type::hasType(PhoneNumberType::NAME)) {
-            Type::overrideType(PhoneNumberType::NAME, null);
-        }
-
         $reflection = new \ReflectionClass(Type::class);
-        $property = $reflection->getProperty('_typesMap');
-        $property->setAccessible(true);
+        if ($reflection->hasProperty('typeRegistry')) {
+            $property = $reflection->getProperty('typeRegistry');
+            $property->setAccessible(true);
+            $property->setValue(null, null);
+        } else {
+            if (Type::hasType(PhoneNumberType::NAME)) {
+                Type::overrideType(PhoneNumberType::NAME, null);
+            }
 
-        $value = $property->getValue(null);
-        unset($value[PhoneNumberType::NAME]);
+            $reflection = new \ReflectionClass(Type::class);
+            $property = $reflection->getProperty('_typesMap');
+            $property->setAccessible(true);
 
-        $property->setValue(null, $value);
+            $value = $property->getValue(null);
+            unset($value[ PhoneNumberType::NAME ]);
+
+            $property->setValue(null, $value);
+        }
     }
 
     public function testSQLDeclarationShouldBeCorrect(): void

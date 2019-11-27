@@ -43,8 +43,8 @@
         }
     },
     "conflict": {
-        "doctrine/orm": ">=2.7",
-        "doctrine/dbal": ">=2.10"
+        "doctrine/orm": ">=2.8",
+        "doctrine/dbal": ">=2.11"
     },
     "config": {
         "sort-packages": true,

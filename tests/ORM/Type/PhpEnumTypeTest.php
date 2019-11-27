@@ -18,30 +18,37 @@ class PhpEnumTypeTest extends TestCase
      */
     protected function tearDown(): void
     {
-        $fooEnum = FoobarEnum::class;
-        $multipleFooEnum = "array<$fooEnum>";
-        $actionEnum = FoobarEnum::class;
-        $multipleActionEnum = "array<$fooEnum>";
-
-        foreach ([$fooEnum, $multipleFooEnum, $actionEnum, $multipleActionEnum] as $enumClass) {
-            if (Type::hasType($enumClass)) {
-                Type::overrideType($enumClass, null);
-            }
-        }
-
         $reflection = new \ReflectionClass(Type::class);
-        $property = $reflection->getProperty('_typesMap');
-        $property->setAccessible(true);
+        if ($reflection->hasProperty('typeRegistry')) {
+            $property = $reflection->getProperty('typeRegistry');
+            $property->setAccessible(true);
+            $property->setValue(null, null);
+        } else {
+            $fooEnum = FoobarEnum::class;
+            $multipleFooEnum = "array<$fooEnum>";
+            $actionEnum = FoobarEnum::class;
+            $multipleActionEnum = "array<$fooEnum>";
 
-        $value = $property->getValue(null);
-        unset(
-            $value[$fooEnum],
-            $value[$multipleFooEnum],
-            $value[$actionEnum],
-            $value[$multipleActionEnum]
-        );
+            foreach ([$fooEnum, $multipleFooEnum, $actionEnum, $multipleActionEnum] as $enumClass) {
+                if (Type::hasType($enumClass)) {
+                    Type::overrideType($enumClass, null);
+                }
+            }
 
-        $property->setValue(null, $value);
+            $reflection = new \ReflectionClass(Type::class);
+            $property = $reflection->getProperty('_typesMap');
+            $property->setAccessible(true);
+
+            $value = $property->getValue(null);
+            unset(
+                $value[ $fooEnum ],
+                $value[ $multipleFooEnum ],
+                $value[ $actionEnum ],
+                $value[ $multipleActionEnum ]
+            );
+
+            $property->setValue(null, $value);
+        }
     }
 
     public function testTypesAreCorrectlyRegistered(): void
@@ -50,8 +57,6 @@ class PhpEnumTypeTest extends TestCase
             $multipleEnumClass = "array<$enumClass>";
 
             self::assertFalse(Type::hasType($enumClass));
-            $reflectionProperty = new \ReflectionProperty(Type::class, '_typesMap');
-            $reflectionProperty->setAccessible(true);
             self::assertFalse(Type::hasType($multipleEnumClass));
 
             PhpEnumType::registerEnumType($enumClass);

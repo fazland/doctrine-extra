@@ -27,18 +27,24 @@ class MoneyCurrencyTypeTest extends TestCase
      */
     public function tearDown(): void
     {
-        if (Type::hasType(MoneyCurrencyType::NAME)) {
-            Type::overrideType(MoneyCurrencyType::NAME, null);
-        }
-
         $reflection = new \ReflectionClass(Type::class);
-        $property = $reflection->getProperty('_typesMap');
-        $property->setAccessible(true);
+        if ($reflection->hasProperty('typeRegistry')) {
+            $property = $reflection->getProperty('typeRegistry');
+            $property->setAccessible(true);
+            $property->setValue(null, null);
+        } else {
+            if (Type::hasType(MoneyCurrencyType::NAME)) {
+                Type::overrideType(MoneyCurrencyType::NAME, null);
+            }
 
-        $value = $property->getValue(null);
-        unset($value[MoneyCurrencyType::NAME]);
+            $property = $reflection->getProperty('_typesMap');
+            $property->setAccessible(true);
 
-        $property->setValue(null, $value);
+            $value = $property->getValue(null);
+            unset($value[ MoneyCurrencyType::NAME ]);
+
+            $property->setValue(null, $value);
+        }
     }
 
     public function testSQLDeclarationShouldBeCorrect(): void
