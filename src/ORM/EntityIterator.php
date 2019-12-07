@@ -46,7 +46,9 @@ class EntityIterator implements ObjectIteratorInterface
     public function next()
     {
         $this->_current = null;
-        $this->_currentElement = $this->getIterator()->next()[0];
+
+        $next = $this->getIterator()->next();
+        $this->_currentElement = false !== $next ? $next[0] : null;
 
         return $this->current();
     }
@@ -84,7 +86,7 @@ class EntityIterator implements ObjectIteratorInterface
     {
         $this->_current = null;
         $this->getIterator()->rewind();
-        $this->_currentElement = $this->getIterator()->current()[0];
+        $this->_currentElement = $this->getCurrentElement();
     }
 
     /**
@@ -117,12 +119,26 @@ class EntityIterator implements ObjectIteratorInterface
 
         $query = $this->queryBuilder->getQuery();
         if (null !== $this->resultCache) {
-            $query->useResultCache(true, $this->cacheLifetime, $this->resultCache);
+            if (\method_exists($query, 'enableResultCache')) {
+                $query->enableResultCache($this->cacheLifetime, $this->resultCache);
+            } else {
+                $query->useResultCache(true, $this->cacheLifetime, $this->resultCache);
+            }
         }
 
         $this->internalIterator = $query->iterate();
-        $this->_currentElement = $this->getIterator()->current()[0];
+        $this->_currentElement = $this->getCurrentElement();
 
         return $this->internalIterator;
+    }
+
+    private function getCurrentElement()
+    {
+        $current = $this->internalIterator->current();
+        if (null === $current) {
+            return $current;
+        }
+
+        return $current[0] ?? null;
     }
 }
