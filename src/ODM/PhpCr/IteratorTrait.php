@@ -28,6 +28,8 @@ trait IteratorTrait
     {
         if (null === $this->_totalCount) {
             $queryBuilder = clone $this->queryBuilder;
+            $queryBuilder->setMaxResults(null);
+            $queryBuilder->setFirstResult(null);
 
             /** @var QueryResultInterface $result */
             $result = $queryBuilder->getQuery()->getResult(Query::HYDRATE_PHPCR);
