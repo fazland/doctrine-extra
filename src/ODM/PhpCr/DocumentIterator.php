@@ -4,11 +4,8 @@ namespace Fazland\DoctrineExtra\ODM\PhpCr;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
-use Doctrine\ODM\PHPCR\Query\Query;
 use Doctrine\ODM\PHPCR\Query\QueryException;
-use Fazland\DoctrineExtra\IteratorTrait;
 use Fazland\DoctrineExtra\ObjectIteratorInterface;
-use PHPCR\Query\QueryResultInterface;
 
 /**
  * This class allows iterating a query iterator for a single entity query.
@@ -22,36 +19,10 @@ class DocumentIterator implements ObjectIteratorInterface
      */
     private $internalIterator;
 
-    /**
-     * @var QueryBuilder
-     */
-    private $queryBuilder;
-
-    /**
-     * @var int|null
-     */
-    private $_totalCount;
-
     public function __construct(QueryBuilder $queryBuilder)
     {
         $this->queryBuilder = clone $queryBuilder;
         $this->apply();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function count(): int
-    {
-        if (null === $this->_totalCount) {
-            $queryBuilder = clone $this->queryBuilder;
-
-            /** @var QueryResultInterface $result */
-            $result = $queryBuilder->getQuery()->getResult(Query::HYDRATE_PHPCR);
-            $this->_totalCount = \count($result->getRows());
-        }
-
-        return $this->_totalCount;
     }
 
     /**
