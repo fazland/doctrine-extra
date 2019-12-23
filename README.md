@@ -6,7 +6,7 @@ A set of Doctrine extensions.
 
 Requirements
 ------------
-- php ^7.2
+- php ^7.4
 
 Installation
 ------------
