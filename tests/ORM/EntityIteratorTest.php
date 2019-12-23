@@ -17,15 +17,9 @@ class EntityIteratorTest extends TestCase
 {
     use EntityManagerTrait;
 
-    /**
-     * @var QueryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
-    /**
-     * @var EntityIterator
-     */
-    private $iterator;
+    private EntityIterator $iterator;
 
     /**
      * {@inheritdoc}

@@ -33,10 +33,7 @@ XML;
 
     use DocumentManagerTrait;
 
-    /**
-     * @var DocumentRepository
-     */
-    private $repository;
+    private DocumentRepository $repository;
 
     /**
      * {@inheritdoc}

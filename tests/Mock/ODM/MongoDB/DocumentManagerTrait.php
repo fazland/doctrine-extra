@@ -16,85 +16,86 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 trait DocumentManagerTrait
 {
-    /**
-     * @var DocumentManager
-     */
-    private $documentManager;
+    private ?DocumentManager $documentManager = null;
 
     /**
      * @var Client|ObjectProphecy
      */
-    private $client;
+    private object $client;
 
     /**
      * @var Database|ObjectProphecy
      */
-    private $database;
+    private object $database;
 
     /**
      * @var Collection|ObjectProphecy
      */
-    private $collection;
+    private object $collection;
 
     /**
      * @var Connection
      */
-    private $connection;
+    private Connection $connection;
 
     /**
      * @var Configuration
      */
-    private $configuration;
+    private Configuration $configuration;
 
     public function getDocumentManager(): DocumentManager
     {
-        if (null === $this->documentManager) {
-            $mongoDb = null;
-
-            $server = $this->prophesize(\MongoClient::class);
-            $server->getReadPreference()->willReturn(['type' => \MongoClient::RP_PRIMARY]);
-            $server->getWriteConcern()->willReturn([
-                'w' => 1,
-                'wtimeout' => 5000,
-            ]);
-            $server->selectDB('doctrine')->will(function ($args) use (&$mongoDb): \MongoDb {
-                [$dbName] = $args;
-                if (isset($mongoDb)) {
-                    return $mongoDb;
-                }
-
-                $mongoDb = new \MongoDB($this->reveal(), $dbName);
-
-                return $mongoDb;
-            });
-            $server->getClient()->willReturn($this->client = $this->prophesize(Client::class));
-
-            $this->client->selectDatabase('doctrine', Argument::any())
-                ->willReturn($this->database = $this->prophesize(Database::class));
-            $this->client->selectCollection('doctrine', 'FooBar', Argument::any())
-                ->willReturn($this->collection = $this->prophesize(Collection::class));
-            $this->database->selectCollection('FooBar', Argument::any())->willReturn($this->collection);
-
-            $server->selectCollection(Argument::cetera())->willReturn($oldCollection = $this->prophesize(\MongoCollection::class));
-            $oldCollection->getCollection()->willReturn($this->collection);
-
-            $schemaManager = $this->prophesize(SchemaManager::class);
-            $this->connection = new Connection($server->reveal());
-
-            $this->configuration = new Configuration();
-            $this->configuration->setHydratorDir(\sys_get_temp_dir());
-            $this->configuration->setHydratorNamespace('__TMP__\\HydratorNamespace');
-            $this->configuration->setProxyDir(\sys_get_temp_dir());
-            $this->configuration->setProxyNamespace('__TMP__\\ProxyNamespace');
-            $this->configuration->setDefaultRepositoryClassName(DocumentRepository::class);
-
-            $this->documentManager = DocumentManager::create($this->connection, $this->configuration);
-
-            (function () use ($schemaManager): void {
-                $this->schemaManager = $schemaManager->reveal();
-                $this->metadataFactory = new FakeMetadataFactory();
-            })->call($this->documentManager);
+        if (null !== $this->documentManager) {
+            return $this->documentManager;
         }
+
+        $mongoDb = null;
+
+        $server = $this->prophesize(\MongoClient::class);
+        $server->getReadPreference()->willReturn(['type' => \MongoClient::RP_PRIMARY]);
+        $server->getWriteConcern()->willReturn([
+            'w' => 1,
+            'wtimeout' => 5000,
+        ]);
+        $server->selectDB('doctrine')->will(function ($args) use (&$mongoDb): \MongoDb {
+            [$dbName] = $args;
+            if (isset($mongoDb)) {
+                return $mongoDb;
+            }
+
+            $mongoDb = new \MongoDB($this->reveal(), $dbName);
+
+            return $mongoDb;
+        });
+        $server->getClient()->willReturn($this->client = $this->prophesize(Client::class));
+
+        $this->database = $this->prophesize(Database::class);
+        $this->client->selectDatabase('doctrine', Argument::any())->willReturn($this->database);
+
+        $this->collection = $this->prophesize(Collection::class);
+        $this->client->selectCollection('doctrine', 'FooBar', Argument::any())->willReturn($this->collection);
+        $this->database->selectCollection('FooBar', Argument::any())->willReturn($this->collection);
+
+        $oldCollection = $this->prophesize(\MongoCollection::class);
+        $server->selectCollection(Argument::cetera())->willReturn($oldCollection);
+        $oldCollection->getCollection()->willReturn($this->collection);
+
+        $schemaManager = $this->prophesize(SchemaManager::class);
+        $this->connection = new Connection($server->reveal());
+
+        $this->configuration = new Configuration();
+        $this->configuration->setHydratorDir(\sys_get_temp_dir());
+        $this->configuration->setHydratorNamespace('__TMP__\\HydratorNamespace');
+        $this->configuration->setProxyDir(\sys_get_temp_dir());
+        $this->configuration->setProxyNamespace('__TMP__\\ProxyNamespace');
+        $this->configuration->setDefaultRepositoryClassName(DocumentRepository::class);
+
+        $this->documentManager = DocumentManager::create($this->connection, $this->configuration);
+
+        (function () use ($schemaManager): void {
+            $this->schemaManager = $schemaManager->reveal();
+            $this->metadataFactory = new FakeMetadataFactory();
+        })->call($this->documentManager);
 
         return $this->documentManager;
     }

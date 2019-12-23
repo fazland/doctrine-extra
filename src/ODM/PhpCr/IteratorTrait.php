@@ -11,31 +11,25 @@ trait IteratorTrait
 {
     use BaseIteratorTrait;
 
-    /**
-     * @var QueryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
-    /**
-     * @var int|null
-     */
-    private $_totalCount;
+    private ?int $totalCount;
 
     /**
      * {@inheritdoc}
      */
     public function count(): int
     {
-        if (null === $this->_totalCount) {
+        if (null === $this->totalCount) {
             $queryBuilder = clone $this->queryBuilder;
             $queryBuilder->setMaxResults(null);
             $queryBuilder->setFirstResult(null);
 
             /** @var QueryResultInterface $result */
             $result = $queryBuilder->getQuery()->getResult(Query::HYDRATE_PHPCR);
-            $this->_totalCount = \count($result->getRows());
+            $this->totalCount = \count($result->getRows());
         }
 
-        return $this->_totalCount;
+        return $this->totalCount;
     }
 }

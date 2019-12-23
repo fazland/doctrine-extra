@@ -15,15 +15,9 @@ class DocumentIteratorTest extends TestCase
 {
     use DocumentManagerTrait;
 
-    /**
-     * @var Builder
-     */
-    private $builder;
+    private Builder $builder;
 
-    /**
-     * @var DocumentIterator
-     */
-    private $iterator;
+    private DocumentIterator $iterator;
 
     /**
      * {@inheritdoc}

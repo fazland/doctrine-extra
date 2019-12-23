@@ -15,20 +15,11 @@ class EntityIterator implements ObjectIteratorInterface
         current as private iteratorCurrent;
     }
 
-    /**
-     * @var IterableResult
-     */
-    private $internalIterator;
+    private ?IterableResult $internalIterator;
 
-    /**
-     * @var string
-     */
-    private $resultCache;
+    private ?string $resultCache;
 
-    /**
-     * @var int
-     */
-    private $cacheLifetime;
+    private int $cacheLifetime;
 
     public function __construct(QueryBuilder $queryBuilder)
     {
@@ -37,6 +28,10 @@ class EntityIterator implements ObjectIteratorInterface
         }
 
         $this->queryBuilder = clone $queryBuilder;
+        $this->internalIterator = null;
+        $this->resultCache = null;
+        $this->totalCount = null;
+
         $this->apply();
     }
 
@@ -45,10 +40,10 @@ class EntityIterator implements ObjectIteratorInterface
      */
     public function next()
     {
-        $this->_current = null;
+        $this->current = null;
 
         $next = $this->getIterator()->next();
-        $this->_currentElement = false !== $next ? $next[0] : null;
+        $this->currentElement = false !== $next ? $next[0] : null;
 
         return $this->current();
     }
@@ -84,9 +79,9 @@ class EntityIterator implements ObjectIteratorInterface
      */
     public function rewind(): void
     {
-        $this->_current = null;
+        $this->current = null;
         $this->getIterator()->rewind();
-        $this->_currentElement = $this->getCurrentElement();
+        $this->currentElement = $this->getCurrentElement();
     }
 
     /**
@@ -127,7 +122,7 @@ class EntityIterator implements ObjectIteratorInterface
         }
 
         $this->internalIterator = $query->iterate();
-        $this->_currentElement = $this->getCurrentElement();
+        $this->currentElement = $this->getCurrentElement();
 
         return $this->internalIterator;
     }

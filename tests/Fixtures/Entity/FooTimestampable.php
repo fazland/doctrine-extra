@@ -19,13 +19,11 @@ class FooTimestampable implements TimestampableInterface
     public const NEW_ID = 150;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $id;
+    private int $id;
 
     public function __construct()
     {

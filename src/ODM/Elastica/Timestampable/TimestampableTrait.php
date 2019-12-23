@@ -10,16 +10,12 @@ trait TimestampableTrait
     use BaseTrait;
 
     /**
-     * @var \DateTimeInterface
-     *
      * @ODM\Field(type="datetime_immutable")
      */
-    private $createdAt;
+    private \DateTimeInterface $createdAt;
 
     /**
-     * @var \DateTimeInterface
-     *
      * @ODM\Field(type="datetime_immutable")
      */
-    private $updatedAt;
+    private \DateTimeInterface $updatedAt;
 }

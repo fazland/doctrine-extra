@@ -10,16 +10,12 @@ trait TimestampableTrait
     use BaseTrait;
 
     /**
-     * @var \DateTimeInterface
-     *
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private $createdAt;
+    private \DateTimeInterface $createdAt;
 
     /**
-     * @var \DateTimeInterface
-     *
      * @ORM\Column(type="datetimetz_immutable")
      */
-    private $updatedAt;
+    private \DateTimeInterface $updatedAt;
 }

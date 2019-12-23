@@ -28,7 +28,8 @@ class DocumentRepository extends BaseRepository implements ObjectRepositoryInter
         /** @var QueryResultInterface $result */
         $result = $this->buildQueryBuilderForCriteria($criteria)
              ->getQuery()
-             ->getResult(Query::HYDRATE_PHPCR);
+             ->getResult(Query::HYDRATE_PHPCR)
+        ;
 
         return \count(\iterator_to_array($result->getRows(), false));
     }

@@ -3,12 +3,12 @@
 namespace Fazland\DoctrineExtra\ORM\Metadata;
 
 use Doctrine\Instantiator\Instantiator;
-use Doctrine\ORM\Mapping\ClassMetadata as Base;
+use Doctrine\ORM\Mapping\ClassMetadata as BaseClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\Mapping\ReflectionEmbeddedProperty;
 
-class ClassMetadata extends Base
+class ClassMetadata extends BaseClassMetadata
 {
     /**
      * {@inheritdoc}
@@ -106,7 +106,7 @@ class ClassMetadata extends Base
         }
 
         foreach ($embeddable->associationMappings as $assocMapping) {
-            if (! ($assocMapping['type'] & ClassMetadata::MANY_TO_ONE)) {
+            if (! ($assocMapping['type'] & BaseClassMetadata::MANY_TO_ONE)) {
                 continue;
             }
 

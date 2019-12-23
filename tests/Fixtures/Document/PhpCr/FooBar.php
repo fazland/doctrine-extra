@@ -10,11 +10,9 @@ use Doctrine\ODM\PHPCR\Mapping\Annotations as ODM;
 class FooBar
 {
     /**
-     * @var string
-     *
      * @ODM\Id(strategy="ASSIGNED")
      */
-    public $id;
+    public string $id;
 
     /**
      * @var mixed

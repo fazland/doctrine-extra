@@ -21,10 +21,7 @@ class EntityRepositoryTest extends TestCase
 {
     use EntityManagerTrait;
 
-    /**
-     * @var EntityRepository
-     */
-    private $repository;
+    private EntityRepository $repository;
 
     /**
      * {@inheritdoc}

@@ -9,22 +9,16 @@ trait IteratorTrait
 {
     use BaseIteratorTrait;
 
-    /**
-     * @var QueryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
-    /**
-     * @var int|null
-     */
-    private $_totalCount;
+    private ?int $totalCount;
 
     /**
      * {@inheritdoc}
      */
     public function count(): int
     {
-        if (null === $this->_totalCount) {
+        if (null === $this->totalCount) {
             $queryBuilder = clone $this->queryBuilder;
             $alias = $queryBuilder->getRootAliases()[0];
 
@@ -39,7 +33,7 @@ trait IteratorTrait
                 $alias = 'IDENTITY('.$alias.')';
             }
 
-            $this->_totalCount = (int) $queryBuilder->select('COUNT('.$distinct.$alias.')')
+            $this->totalCount = (int) $queryBuilder->select('COUNT('.$distinct.$alias.')')
                 ->setFirstResult(null)
                 ->setMaxResults(null)
                 ->getQuery()
@@ -47,6 +41,6 @@ trait IteratorTrait
             ;
         }
 
-        return $this->_totalCount;
+        return $this->totalCount;
     }
 }

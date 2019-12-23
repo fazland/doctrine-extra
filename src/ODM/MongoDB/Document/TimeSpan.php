@@ -13,16 +13,12 @@ class TimeSpan
     use TimeSpanTrait;
 
     /**
-     * @var \DateTimeImmutable
-     *
      * @ODM\Field(type="date")
      */
-    private $start;
+    private \DateTimeImmutable $start;
 
     /**
-     * @var \DateTimeImmutable
-     *
      * @ODM\Field(type="date")
      */
-    private $end;
+    private \DateTimeImmutable $end;
 }

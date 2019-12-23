@@ -19,48 +19,41 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 trait EntityManagerTrait
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private ?EntityManagerInterface $entityManager = null;
 
-    /**
-     * @var Connection
-     */
-    private $connection;
+    private Connection $connection;
 
     /**
      * @var DriverConnection|ObjectProphecy
      */
-    private $innerConnection;
+    private object $innerConnection;
 
-    /**
-     * @var Configuration
-     */
-    private $configuration;
+    private Configuration $configuration;
 
     public function getEntityManager(): EntityManagerInterface
     {
-        if (null === $this->entityManager) {
-            $this->configuration = new Configuration();
-
-            $this->configuration->setResultCacheImpl(new ArrayCache());
-            $this->configuration->setClassMetadataFactoryName(FakeMetadataFactory::class);
-            $this->configuration->setMetadataDriverImpl($this->prophesize(MappingDriver::class)->reveal());
-            $this->configuration->setProxyDir(\sys_get_temp_dir());
-            $this->configuration->setProxyNamespace('__TMP__\\ProxyNamespace\\');
-            $this->configuration->setAutoGenerateProxyClasses(AbstractProxyFactory::AUTOGENERATE_ALWAYS);
-            $this->configuration->setDefaultRepositoryClassName(EntityRepository::class);
-
-            $this->innerConnection = $this->prophesize(PDOConnection::class);
-
-            $this->connection = new Connection([
-                'pdo' => $this->innerConnection->reveal(),
-                'platform' => new Platform(),
-            ], new Driver(), $this->configuration);
-
-            $this->entityManager = EntityManager::create($this->connection, $this->configuration);
+        if (null !== $this->entityManager) {
+            return $this->entityManager;
         }
+
+        $this->configuration = new Configuration();
+
+        $this->configuration->setResultCacheImpl(new ArrayCache());
+        $this->configuration->setClassMetadataFactoryName(FakeMetadataFactory::class);
+        $this->configuration->setMetadataDriverImpl($this->prophesize(MappingDriver::class)->reveal());
+        $this->configuration->setProxyDir(\sys_get_temp_dir());
+        $this->configuration->setProxyNamespace('__TMP__\\ProxyNamespace\\');
+        $this->configuration->setAutoGenerateProxyClasses(AbstractProxyFactory::AUTOGENERATE_ALWAYS);
+        $this->configuration->setDefaultRepositoryClassName(EntityRepository::class);
+
+        $this->innerConnection = $this->prophesize(PDOConnection::class);
+
+        $this->connection = new Connection([
+            'pdo' => $this->innerConnection->reveal(),
+            'platform' => new Platform(),
+        ], new Driver(), $this->configuration);
+
+        $this->entityManager = EntityManager::create($this->connection, $this->configuration);
 
         return $this->entityManager;
     }

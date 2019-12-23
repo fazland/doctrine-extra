@@ -16,15 +16,9 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 class RegExp extends FunctionNode
 {
-    /**
-     * @var Node
-     */
-    public $value;
+    public Node $value;
 
-    /**
-     * @var Node
-     */
-    public $regExp;
+    public Node $regExp;
 
     /**
      * {@inheritdoc}

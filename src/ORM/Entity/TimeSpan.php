@@ -16,16 +16,12 @@ class TimeSpan
     use TimeSpanTrait;
 
     /**
-     * @var \DateTimeImmutable
-     *
      * @ORM\Column(type="datetimetz_immutable", nullable=true)
      */
-    private $start;
+    private \DateTimeImmutable $start;
 
     /**
-     * @var \DateTimeImmutable
-     *
      * @ORM\Column(type="datetimetz_immutable", nullable=true)
      */
-    private $end;
+    private \DateTimeImmutable $end;
 }

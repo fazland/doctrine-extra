@@ -30,15 +30,9 @@ XML;
 
     use DocumentManagerTrait;
 
-    /**
-     * @var DocumentIterator
-     */
-    private $iterator;
+    private DocumentIterator $iterator;
 
-    /**
-     * @var QueryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
     /**
      * {@inheritdoc}
@@ -54,7 +48,8 @@ XML;
         $class->setIdentifier('id');
 
         $this->queryBuilder = $documentManager->createQueryBuilder()
-                                              ->fromDocument(FooBar::class, 'f');
+            ->fromDocument(FooBar::class, 'f')
+        ;
 
         $this->iterator = new DocumentIterator($this->queryBuilder);
     }

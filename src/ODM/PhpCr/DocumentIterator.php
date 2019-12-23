@@ -14,14 +14,14 @@ class DocumentIterator implements ObjectIteratorInterface
 {
     use IteratorTrait;
 
-    /**
-     * @var \Iterator
-     */
-    private $internalIterator;
+    private ?\Iterator $internalIterator;
 
     public function __construct(QueryBuilder $queryBuilder)
     {
         $this->queryBuilder = clone $queryBuilder;
+        $this->internalIterator = null;
+        $this->totalCount = null;
+
         $this->apply();
     }
 
@@ -32,8 +32,8 @@ class DocumentIterator implements ObjectIteratorInterface
     {
         $this->getIterator()->next();
 
-        $this->_current = null;
-        $this->_currentElement = $this->getIterator()->current();
+        $this->current = null;
+        $this->currentElement = $this->getIterator()->current();
 
         return $this->current();
     }
@@ -59,9 +59,9 @@ class DocumentIterator implements ObjectIteratorInterface
      */
     public function rewind(): void
     {
-        $this->_current = null;
+        $this->current = null;
         $this->getIterator()->rewind();
-        $this->_currentElement = $this->getIterator()->current();
+        $this->currentElement = $this->getIterator()->current();
     }
 
     /**
@@ -83,7 +83,7 @@ class DocumentIterator implements ObjectIteratorInterface
             $this->internalIterator = new \ArrayIterator(\array_values($result->toArray()));
         }
 
-        $this->_currentElement = $this->internalIterator->current();
+        $this->currentElement = $this->internalIterator->current();
 
         return $this->internalIterator;
     }

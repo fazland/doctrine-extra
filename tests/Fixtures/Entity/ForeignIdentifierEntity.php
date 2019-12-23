@@ -10,13 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class ForeignIdentifierEntity
 {
     /**
-     * @var int
-     *
-     * @ORM\OneToOne(targetEntity=FooBar::class)
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity=FooBar::class)
      */
-    public $id;
+    public int $id;
 
     /**
      * @var mixed

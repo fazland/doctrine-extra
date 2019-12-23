@@ -10,15 +10,9 @@ use Doctrine\ORM\Query\SqlWalker;
 
 class Cast extends FunctionNode
 {
-    /**
-     * @var Node
-     */
-    private $field;
+    private Node $field;
 
-    /**
-     * @var Node
-     */
-    private $type;
+    private Node $type;
 
     /**
      * {@inheritdoc}

@@ -11,14 +11,16 @@ use Doctrine\ORM\Mapping\ClassMetadata as ORMClassMetadata;
 
 class FakeMetadataFactory implements ClassMetadataFactory
 {
-    private $metadata = [];
-    private $reflectionService;
+    private array $metadata;
+
+    private RuntimeReflectionService $reflectionService;
 
     /**
      * {@inheritdoc}
      */
     public function __construct()
     {
+        $this->metadata = [];
         $this->reflectionService = new RuntimeReflectionService();
     }
 

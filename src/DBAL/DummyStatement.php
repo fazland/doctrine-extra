@@ -17,22 +17,13 @@ class DummyStatement implements \IteratorAggregate, Statement
     /**
      * @var mixed[]
      */
-    private $data;
+    private array $data;
 
-    /**
-     * @var int
-     */
-    private $columnCount;
+    private int $columnCount;
 
-    /**
-     * @var int
-     */
-    private $num;
+    private int $num;
 
-    /**
-     * @var int
-     */
-    private $defaultFetchMode = FetchMode::MIXED;
+    private int $defaultFetchMode;
 
     /**
      * @param mixed[] $data
@@ -42,6 +33,7 @@ class DummyStatement implements \IteratorAggregate, Statement
         $this->data = $data;
         $this->columnCount = \count($data[0] ?? []);
         $this->num = 0;
+        $this->defaultFetchMode = FetchMode::MIXED;
     }
 
     /**

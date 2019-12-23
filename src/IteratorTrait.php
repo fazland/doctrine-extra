@@ -5,19 +5,18 @@ namespace Fazland\DoctrineExtra;
 trait IteratorTrait
 {
     /**
-     * A function to be applied to each element
-     * while iterating.
+     * A function to be applied to each element while iterating.
      *
      * @var callable|null
      */
-    private $_apply;
+    private $callable;
 
     /**
      * The current element from the underlying iterator.
      *
      * @var mixed
      */
-    private $_currentElement;
+    private $currentElement;
 
     /**
      * The current element, which results by the application
@@ -25,21 +24,21 @@ trait IteratorTrait
      *
      * @var mixed
      */
-    private $_current;
+    private $current;
 
     /**
      * {@inheritdoc}
      */
-    public function apply(?callable $func = null): ObjectIteratorInterface
+    public function apply(?callable $callable = null): ObjectIteratorInterface
     {
-        if (null === $func) {
-            $func = function ($val) {
+        if (null === $callable) {
+            $callable = static function ($val) {
                 return $val;
             };
         }
 
-        $this->_current = null;
-        $this->_apply = $func;
+        $this->current = null;
+        $this->callable = $callable;
 
         return $this;
     }
@@ -53,11 +52,11 @@ trait IteratorTrait
             return null;
         }
 
-        if (null === $this->_current) {
-            $this->_current = \call_user_func($this->_apply, $this->_currentElement);
+        if (null === $this->current) {
+            $this->current = \call_user_func($this->callable, $this->currentElement);
         }
 
-        return $this->_current;
+        return $this->current;
     }
 
     /**

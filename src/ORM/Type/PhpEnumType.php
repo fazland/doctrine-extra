@@ -9,20 +9,11 @@ use MyCLabs\Enum\Enum;
 
 final class PhpEnumType extends Type
 {
-    /**
-     * @var string
-     */
-    private $name = 'enum';
+    private string $name = 'enum';
 
-    /**
-     * @var string
-     */
-    private $enumClass = Enum::class;
+    private string $enumClass = Enum::class;
 
-    /**
-     * @var bool
-     */
-    private $multiple = false;
+    private bool $multiple = false;
 
     /**
      * {@inheritdoc}

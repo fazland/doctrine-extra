@@ -8,10 +8,7 @@ use Doctrine\ORM\Mapping\ClassMetadataFactory as Base;
 
 class ClassMetadataFactory extends Base
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
      * {@inheritdoc}

@@ -19,10 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 class TimestampUpdaterTest extends TestCase
 {
-    /**
-     * @var TimestampUpdater
-     */
-    private $listener;
+    private TimestampUpdater $listener;
 
     /**
      * {@inheritdoc}

@@ -20,7 +20,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 
 function nodeTypesQuery($connection)
 {
-    $connection->prepare(Argument::that(static function (string $arg): bool {
+    $connection->prepare(Argument::that(function (string $arg): bool {
         return (bool) \preg_match('/FROM\s+phpcr_type_nodes/', $arg);
     }))->will(function () {
         return new DummyStatement([
@@ -82,50 +82,52 @@ function nodeTypesQuery($connection)
 
 trait DocumentManagerTrait
 {
-    /**
-     * @var DocumentManagerInterface
-     */
-    private $documentManager;
+    private ?DocumentManagerInterface $documentManager = null;
 
     /**
      * @var PDOConnection|ObjectProphecy
      */
-    private $connection;
+    private object $connection;
 
-    public function getDocumentManager(): DocumentManager
+    public function getDocumentManager(): DocumentManagerInterface
     {
-        if (null === $this->documentManager) {
-            $this->connection = $this->prophesize(PDOConnection::class);
-
-            $connection = new Connection([
-                'pdo' => $this->connection->reveal(),
-                'platform' => new MySqlPlatform(),
-            ], new Driver());
-
-            $this->connection->prepare('SELECT 1 FROM phpcr_workspaces WHERE name = ?')->willReturn(new DummyStatement([[1]]));
-            $this->connection->query('SELECT DATABASE()')->willReturn(new DummyStatement([['test_db']]));
-            $this->connection->query('SELECT prefix, uri FROM phpcr_namespaces')
-                ->willReturn(new DummyStatement([
-                    ['prefix' => 'phpcr_locale', 'uri' => 'http://www.doctrine-project.org/projects/phpcr_odm/phpcr_locale'],
-                    ['prefix' => 'phpcr', 'uri' => 'http://www.doctrine-project.org/projects/phpcr_odm'],
-                ]));
-            nodeTypesQuery($this->connection);
-
-            $transport = new Client($factory = new Factory(), $connection);
-            $repository = new \Jackalope\Repository($factory, $transport);
-            $session = $repository->login(new SimpleCredentials('admin', 'admin'), 'default');
-
-            $configuration = new Configuration();
-            $configuration->setProxyDir(\sys_get_temp_dir());
-            $configuration->setProxyNamespace('__TMP__\\ProxyNamespace');
-            $configuration->setDefaultRepositoryClassName(DocumentRepository::class);
-
-            $this->documentManager = DocumentManager::create($session, $configuration);
-
-            (function (): void {
-                $this->metadataFactory = new FakeMetadataFactory();
-            })->call($this->documentManager);
+        if (null !== $this->documentManager) {
+            return $this->documentManager;
         }
+
+        $this->connection = $this->prophesize(PDOConnection::class);
+
+        $connection = new Connection([
+            'pdo' => $this->connection->reveal(),
+            'platform' => new MySqlPlatform(),
+        ], new Driver());
+
+        $this->connection->prepare('SELECT 1 FROM phpcr_workspaces WHERE name = ?')->willReturn(new DummyStatement([[1]]));
+        $this->connection->query('SELECT DATABASE()')->willReturn(new DummyStatement([['test_db']]));
+        $this->connection->query('SELECT prefix, uri FROM phpcr_namespaces')
+            ->willReturn(new DummyStatement([
+                ['prefix' => 'phpcr_locale', 'uri' => 'http://www.doctrine-project.org/projects/phpcr_odm/phpcr_locale'],
+                ['prefix' => 'phpcr', 'uri' => 'http://www.doctrine-project.org/projects/phpcr_odm'],
+            ]))
+        ;
+
+        nodeTypesQuery($this->connection);
+
+        $factory = new Factory();
+        $transport = new Client($factory, $connection);
+        $repository = new \Jackalope\Repository($factory, $transport);
+        $session = $repository->login(new SimpleCredentials('admin', 'admin'), 'default');
+
+        $configuration = new Configuration();
+        $configuration->setProxyDir(\sys_get_temp_dir());
+        $configuration->setProxyNamespace('__TMP__\\ProxyNamespace');
+        $configuration->setDefaultRepositoryClassName(DocumentRepository::class);
+
+        $this->documentManager = DocumentManager::create($session, $configuration);
+
+        (function (): void {
+            $this->metadataFactory = new FakeMetadataFactory();
+        })->call($this->documentManager);
 
         return $this->documentManager;
     }

@@ -10,11 +10,9 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 class FooBar
 {
     /**
-     * @var int
-     *
      * @ODM\Id()
      */
-    public $id;
+    public int $id;
 
     /**
      * @var mixed

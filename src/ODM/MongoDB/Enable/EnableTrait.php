@@ -12,9 +12,7 @@ trait EnableTrait
     /**
      * Whether the object is enabled or not.
      *
-     * @var bool
-     *
      * @MongoDBODM\Field(type="boolean")
      */
-    private $enabled;
+    private bool $enabled;
 }

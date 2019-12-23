@@ -14,28 +14,20 @@ class DocumentIterator implements ObjectIteratorInterface
 {
     use IteratorTrait;
 
-    /**
-     * @var Iterator
-     */
-    private $internalIterator;
+    private Iterator $internalIterator;
 
-    /**
-     * @var Builder
-     */
-    private $queryBuilder;
+    private Builder $queryBuilder;
 
-    /**
-     * @var int|null
-     */
-    private $_totalCount;
+    private ?int $totalCount;
 
     public function __construct(Builder $queryBuilder)
     {
         $this->queryBuilder = clone $queryBuilder;
         $this->internalIterator = $this->queryBuilder->getQuery()->getIterator();
+        $this->totalCount = null;
 
         $this->apply();
-        $this->_currentElement = $this->internalIterator->current()[0];
+        $this->currentElement = $this->internalIterator->current()[0];
     }
 
     /**
@@ -43,14 +35,14 @@ class DocumentIterator implements ObjectIteratorInterface
      */
     public function count(): int
     {
-        if (null === $this->_totalCount) {
+        if (null === $this->totalCount) {
             $queryBuilder = clone $this->queryBuilder;
             $queryBuilder->count();
 
-            $this->_totalCount = (int) $queryBuilder->getQuery()->execute();
+            $this->totalCount = (int) $queryBuilder->getQuery()->execute();
         }
 
-        return $this->_totalCount;
+        return $this->totalCount;
     }
 
     /**
@@ -60,8 +52,8 @@ class DocumentIterator implements ObjectIteratorInterface
     {
         $this->internalIterator->next();
 
-        $this->_current = null;
-        $this->_currentElement = $this->internalIterator->current();
+        $this->current = null;
+        $this->currentElement = $this->internalIterator->current();
 
         return $this->current();
     }
@@ -87,8 +79,8 @@ class DocumentIterator implements ObjectIteratorInterface
      */
     public function rewind(): void
     {
-        $this->_current = null;
+        $this->current = null;
         $this->internalIterator->rewind();
-        $this->_currentElement = $this->internalIterator->current();
+        $this->currentElement = $this->internalIterator->current();
     }
 }
