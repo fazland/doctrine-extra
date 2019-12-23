@@ -2,9 +2,9 @@
 
 namespace Fazland\DoctrineExtra\Tests\ODM\PhpCr;
 
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Fazland\DoctrineExtra\DBAL\DummyStatement;
 use Fazland\DoctrineExtra\ODM\PhpCr\DocumentIterator;
 use Fazland\DoctrineExtra\Tests\Fixtures\Document\PhpCr\FooBar;

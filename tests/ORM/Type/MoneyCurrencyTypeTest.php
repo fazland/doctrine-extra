@@ -41,7 +41,7 @@ class MoneyCurrencyTypeTest extends TestCase
             $property->setAccessible(true);
 
             $value = $property->getValue(null);
-            unset($value[ MoneyCurrencyType::NAME ]);
+            unset($value[MoneyCurrencyType::NAME]);
 
             $property->setValue(null, $value);
         }

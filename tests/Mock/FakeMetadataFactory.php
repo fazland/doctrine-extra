@@ -2,12 +2,12 @@
 
 namespace Fazland\DoctrineExtra\Tests\Mock;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
-use Doctrine\Common\Persistence\Mapping\MappingException;
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata as ORMClassMetadata;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Persistence\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 
 class FakeMetadataFactory implements ClassMetadataFactory
 {

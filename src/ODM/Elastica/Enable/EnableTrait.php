@@ -12,9 +12,7 @@ trait EnableTrait
     /**
      * Whether the object is enabled or not.
      *
-     * @var bool
-     *
      * @ODM\Field(type="boolean")
      */
-    private $enabled;
+    private bool $enabled;
 }

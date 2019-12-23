@@ -2,8 +2,8 @@
 
 namespace Fazland\DoctrineExtra\ODM\MongoDB;
 
-use Doctrine\ODM\MongoDB\DocumentRepository as BaseRepository;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository as BaseRepository;
 use Fazland\DoctrineExtra\ObjectIteratorInterface;
 use Fazland\DoctrineExtra\ObjectRepositoryInterface;
 

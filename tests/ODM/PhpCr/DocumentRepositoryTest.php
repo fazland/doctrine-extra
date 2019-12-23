@@ -2,9 +2,9 @@
 
 namespace Fazland\DoctrineExtra\Tests\ODM\PhpCr;
 
-use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ORM\NoResultException;
+use Doctrine\Persistence\Mapping\RuntimeReflectionService;
 use Fazland\DoctrineExtra\DBAL\DummyStatement;
 use Fazland\DoctrineExtra\Exception\NoResultExceptionInterface;
 use Fazland\DoctrineExtra\ODM\PhpCr\DocumentIterator;

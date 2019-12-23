@@ -2,7 +2,7 @@
 
 namespace Fazland\DoctrineExtra\EventListener\Timestampable;
 
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Fazland\DoctrineExtra\Timestampable\TimestampableInterface;
 
 class TimestampUpdater

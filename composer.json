@@ -15,14 +15,15 @@
     ],
     "require": {
         "php": "^7.4",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "alcaeus/mongo-php-adapter": "^1.1",
         "cakephp/chronos": "^1.2",
-        "doctrine/mongodb-odm": "^1.2",
-        "doctrine/phpcr-odm": "^1.0",
-        "doctrine/orm": "^2.6",
+        "doctrine/mongodb-odm": "^1.3",
+        "doctrine/phpcr-odm": "^1.5",
+        "doctrine/orm": "^2.7",
         "fazland/elastica-odm": "^1.0@dev",
         "friendsofphp/php-cs-fixer": "^2.13",
         "giggsey/libphonenumber-for-php": "^8.10",

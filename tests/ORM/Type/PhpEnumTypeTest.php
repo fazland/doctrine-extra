@@ -41,10 +41,10 @@ class PhpEnumTypeTest extends TestCase
 
             $value = $property->getValue(null);
             unset(
-                $value[ $fooEnum ],
-                $value[ $multipleFooEnum ],
-                $value[ $actionEnum ],
-                $value[ $multipleActionEnum ]
+                $value[$fooEnum],
+                $value[$multipleFooEnum],
+                $value[$actionEnum],
+                $value[$multipleActionEnum]
             );
 
             $property->setValue(null, $value);

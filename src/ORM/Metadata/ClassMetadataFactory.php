@@ -2,9 +2,9 @@
 
 namespace Fazland\DoctrineExtra\ORM\Metadata;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataFactory as Base;
+use Doctrine\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 
 class ClassMetadataFactory extends Base
 {

@@ -42,7 +42,7 @@ class PhoneNumberTypeTest extends TestCase
             $property->setAccessible(true);
 
             $value = $property->getValue(null);
-            unset($value[ PhoneNumberType::NAME ]);
+            unset($value[PhoneNumberType::NAME]);
 
             $property->setValue(null, $value);
         }
