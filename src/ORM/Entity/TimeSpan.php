@@ -18,10 +18,10 @@ class TimeSpan
     /**
      * @ORM\Column(type="datetimetz_immutable", nullable=true)
      */
-    private \DateTimeImmutable $start;
+    private ?\DateTimeImmutable $start;
 
     /**
      * @ORM\Column(type="datetimetz_immutable", nullable=true)
      */
-    private \DateTimeImmutable $end;
+    private ?\DateTimeImmutable $end;
 }

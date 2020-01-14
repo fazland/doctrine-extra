@@ -5,8 +5,8 @@ namespace Fazland\DoctrineExtra\TimeSpan;
 use Cake\Chronos\Chronos;
 
 /**
- * @property \DateTimeImmutable start
- * @property \DateTimeImmutable end
+ * @property \DateTimeImmutable|null start
+ * @property \DateTimeImmutable|null end
  */
 trait TimeSpanTrait
 {

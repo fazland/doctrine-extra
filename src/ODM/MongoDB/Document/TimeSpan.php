@@ -15,10 +15,10 @@ class TimeSpan
     /**
      * @ODM\Field(type="date")
      */
-    private \DateTimeImmutable $start;
+    private ?\DateTimeImmutable $start;
 
     /**
      * @ODM\Field(type="date")
      */
-    private \DateTimeImmutable $end;
+    private ?\DateTimeImmutable $end;
 }
