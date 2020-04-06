@@ -2,6 +2,12 @@ Fazland - DoctrineExtra
 =======================
 [![Build Status](https://travis-ci.com/fazland/doctrine-extra.svg?branch=master)](https://travis-ci.com/fazland/doctrine-extra) 
 
+#### ⚠️ Warning
+
+This repository has been deprecated.  
+The development of this package will continue on https://github.com/refugis/doctrine-extra.
+
+
 A set of Doctrine extensions.
 
 Requirements
